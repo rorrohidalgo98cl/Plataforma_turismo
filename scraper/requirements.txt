@@ -25,5 +25,6 @@ geopy==2.4.1
 # API Framework & Scraper Core
 fastapi==0.128.8
 uvicorn==0.46.0
-scrapling==0.4.7
+scrapling[fetchers]==0.4.7
 curl-cffi>=0.7.0
+browserforge
