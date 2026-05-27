@@ -1,0 +1,20 @@
+# Node
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# Python
+scraper/__pycache__/
+scraper/.env
+scraper/*.pyc
+scraper/.pytest_cache/
+
+# Databases
+scraper/*.db-journal
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
+*.log
+*.sqlite

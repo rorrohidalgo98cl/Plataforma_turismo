@@ -1,0 +1,28 @@
+# Plataforma Turismo — requirements
+# Instalar: pip install -r requirements.txt
+
+# Scraping Engine
+playwright==1.44.0
+beautifulsoup4==4.12.3
+lxml==5.2.1
+
+# Base de datos
+asyncpg==0.29.0
+psycopg2-binary==2.9.9
+sqlalchemy==2.0.30
+
+# Utilidades
+python-dotenv==1.0.1
+schedule==1.2.1
+httpx==0.27.0
+
+# ETL Engine & Fuzzy Matching
+aiosqlite==0.20.0
+thefuzz==0.22.1
+python-Levenshtein==0.25.1
+geopy==2.4.1
+
+# API Framework & Scraper Core
+fastapi==0.128.8
+uvicorn==0.46.0
+scrapling==0.4.7
