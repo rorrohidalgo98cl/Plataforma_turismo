@@ -2,7 +2,7 @@
 # Instalar: pip install -r requirements.txt
 
 # Scraping Engine
-playwright==1.44.0
+playwright>=1.58.0
 beautifulsoup4==4.12.3
 lxml>=6.0.3
 
