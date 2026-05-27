@@ -10,10 +10,10 @@ except Exception as e:
     traceback.print_exc()
 
 try:
-    from scrapling import StealthyFetcher
-    print("StealthyFetcher imported successfully.")
+    from scrapling import Fetcher
+    print("Fetcher imported successfully.")
 except Exception as e:
-    print("Failed to import StealthyFetcher:")
+    print("Failed to import Fetcher:")
     traceback.print_exc()
 
 try:

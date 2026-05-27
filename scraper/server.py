@@ -20,7 +20,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Query, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from scrapling import StealthyFetcher
+from scrapling import Fetcher
 from sqlalchemy.future import select
 from db import get_db
 from models import Destino
@@ -346,9 +346,7 @@ async def buscar_hoteles_scrapling(slug: str, fecha_ida: str, fecha_vuelta: str,
         # Scrapling es síncrono por defecto en su StealthyFetcher, 
         # pero lo ejecutaremos en un hilo para no bloquear el loop.
         def _fetch():
-            fetcher = StealthyFetcher()
-            # Configurar para evitar detecciones (Opcional pero recomendado)
-            # fetcher.configure(user_agent="Mozilla/5.0 ...") 
+            fetcher = Fetcher(auto_match=True)
             
             destino = slug.replace('-', ' ').title()
             url = (
@@ -356,9 +354,9 @@ async def buscar_hoteles_scrapling(slug: str, fecha_ida: str, fecha_vuelta: str,
                 f"?ss={destino}%2C+Chile&checkin={fecha_ida}&checkout={fecha_vuelta}"
                 f"&group_adults={pax}&no_rooms=1"
             )
-            logger.info(f"🏨 Navegando a Booking con Scrapling: {url[:60]}...")
+            logger.info(f"🏨 Navegando a Booking con Scrapling Fetcher: {url[:60]}...")
             
-            response = fetcher.fetch(url, headless=True)
+            response = fetcher.get(url, stealthy_headers=True)
             
             # Selectores actualizados para Booking 2026
             # Usamos selectores más genéricos o de data-testid si están disponibles
