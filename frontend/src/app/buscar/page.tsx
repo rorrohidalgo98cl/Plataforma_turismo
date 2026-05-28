@@ -242,6 +242,12 @@ function ResultadosBusqueda() {
   const [error, setError] = useState<string | null>(null)
   const [data, setData] = useState<CotizacionAPI | null>(null)
   const [activeTab, setActiveTab] = useState<TabId>('paquete')
+  const [now, setNow] = useState<number>(() => Date.now())
+
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Date.now()), 60000)
+    return () => clearInterval(interval)
+  }, [])
 
   const [selection, dispatch] = useReducer(selectionReducer, {
     vueloSeleccionado: null,
@@ -269,9 +275,10 @@ function ResultadosBusqueda() {
         const result: CotizacionAPI = await res.json()
         setData(result)
         dispatch({ type: 'INIT', payload: { vuelo: result.vuelo_seleccionado } })
-      } catch (e: any) {
-        console.error(e)
-        setError(e.message || 'No pudimos conectar con el servidor')
+      } catch (e: unknown) {
+        const err = e as Error
+        console.error(err)
+        setError(err.message || 'No pudimos conectar con el servidor')
       } finally {
         setLoading(false)
       }
@@ -291,7 +298,7 @@ function ResultadosBusqueda() {
     return (vuelo + hotel) * pasajeros + auto + tours * pasajeros
   }, [data, selection, pasajeros])
 
-  const handleTabChange = useCallback((tab: TabId) => setActiveTab(tab), [])
+  const handleTabChange = useCallback((tab: TabId) => setActiveTab(tab), [setActiveTab])
 
   if (loading) return <LoadingState destino={destinoData?.nombre || slug} />
   if (error) return <ErrorState message={error} offline={error.includes('connect')} />
@@ -390,7 +397,7 @@ function ResultadosBusqueda() {
               ) : (
                 <><span style={{ color: '#059669' }}>✅ Precios Reales (Hybrid Engine)</span><br />
                 {data.scraped_at && !isNaN(new Date(data.scraped_at).getTime()) && (
-                  <>Actualizado hace {Math.round((Date.now() - new Date(data.scraped_at).getTime()) / 60000)} min.</>
+                  <>Actualizado hace {Math.round((now - new Date(data.scraped_at).getTime()) / 60000)} min.</>
                 )}</>
               )}
             </p>
